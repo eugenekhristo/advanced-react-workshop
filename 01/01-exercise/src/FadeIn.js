@@ -8,7 +8,7 @@ class FadeIn extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ mounted: true });
-    }, 0);
+    }, 400);
   }
 
   render() {

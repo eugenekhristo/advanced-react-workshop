@@ -4,23 +4,40 @@ import subscribeToMessages from "./messages";
 import FadeIn from "./FadeIn";
 
 class PinScrollToBottom extends Component {
+  isScrolledUp = false;
+
+  scrollToBottom() {
+    window.scrollTo(0, document.documentElement.scrollHeight);
+  }
+
+  doImperativeStuff() {
+    if (!this.isScrolledUp) {
+      this.scrollToBottom();
+    }
+  }
+
+  componentWillUpdate = () => {
+    const {scrollHeight, clientHeight, scrollTop} = document.documentElement;
+    this.isScrolledUp = clientHeight + scrollTop < scrollHeight;
+  }
+  
   render() {
     return this.props.children;
   }
+
+  componentDidMount = () => {
+    this.doImperativeStuff();
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    this.doImperativeStuff();
+  } 
 }
 
 class App extends Component {
   state = {
     messages: []
   };
-
-  componentDidMount() {
-    subscribeToMessages(message => {
-      this.setState({
-        messages: this.state.messages.concat([message])
-      });
-    });
-  }
 
   render() {
     const { messages } = this.state;
@@ -49,6 +66,16 @@ class App extends Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    subscribeToMessages(message => {
+      this.setState({
+        messages: this.state.messages.concat([message])
+      });
+    });
+
+  }
+  
 }
 
 export default App;

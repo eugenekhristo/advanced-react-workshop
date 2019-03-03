@@ -19,7 +19,7 @@ body {
   align-items: top;
   margin: 2vh;
   opacity: 0;
-  transition: opacity 650ms ease;
+  transition: opacity 1s ease;
 }
 
 .message.fade-in {
