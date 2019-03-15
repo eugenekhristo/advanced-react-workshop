@@ -4,26 +4,18 @@ import subscribeToMessages from "./messages";
 import FadeIn from "./FadeIn";
 
 class PinScrollToBottom extends Component {
-  isScrolledup = false;
-
-  constructor() {
-    super();
-
-    window.addEventListener('scroll', () => {
-      const {scrollHeight, clientHeight} = document.documentElement;
-
-      if (pageYOffset + clientHeight < scrollHeight) {
-        this.isScrolledup = true;
-      } else {
-        this.isScrolledup = false;
-      }
-    });
+  scrollToBottom() {
+    window.scrollTo(0, document.documentElement.scrollHeight);
   }
 
-  scrollToBottom() {
-    if (!this.isScrolledup) {
-      window.scrollTo(0, document.documentElement.scrollHeight);
-    }
+  doImperativeStuff() {
+    if (!this.isScrolledUp) this.scrollToBottom();
+  }
+
+  componentWillUpdate() {
+    const {scrollHeight, clientHeight} = document.documentElement;
+    console.log(this.isScrolledUp);
+    this.isScrolledUp = window.pageYOffset + clientHeight < scrollHeight;
   }
 
   render() {
@@ -31,11 +23,11 @@ class PinScrollToBottom extends Component {
   }
 
   componentDidMount = () => {
-    this.scrollToBottom();
+    this.doImperativeStuff();
   }
   
   componentDidUpdate() {
-    this.scrollToBottom();
+    this.doImperativeStuff();
   }
 }
 
