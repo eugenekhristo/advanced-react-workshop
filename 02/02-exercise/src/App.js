@@ -36,7 +36,7 @@ class RadioButton extends Component {
   render() {
     const { value, children, activeValue, onSelectButton } = this.props;
 
-    const isActive = value === activeValue; // <-- should come from somewhere
+    const isActive = value === activeValue;
     const className = "radio-button" + (isActive ? " active" : "");
 
     return (
